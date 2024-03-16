@@ -1,6 +1,7 @@
 package garabu.garabuserver.domain.item;
 
 import garabu.garabuserver.domain.Category;
+import garabu.garabuserver.exception.NotEnoughStockException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,4 +25,20 @@ public abstract class Item {
 
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();
+
+    //비즈니스 로직
+
+    //재고증가
+    public void addStock(int quantity) {
+        this.stockQuantity += quantity;
+    }
+
+    //재고감소
+    public void removeStock(int quantity){
+        int restStock = this.stockQuantity - quantity;
+        if(restStock < 0){
+            throw new NotEnoughStockException("need more stock");
+        }
+        this.stockQuantity = restStock;
+    }
 }
