@@ -3,7 +3,6 @@ package garabu.garabuserver.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -73,5 +72,22 @@ public class Order {
         if(delivery.getStatus() == DeliveryStatus.COMP){
             throw new IllegalStateException("이미 배송 완료된 상품은 취소가 불가능합니다.");
         }
+        this.setStatus(OrderStatus.CANCLE);
+        for(OrderItem orderItem : orderItems){
+            orderItem.cancel();
+        }
+    }
+    //조회 전체주문 가격 조회
+
+    public int getTotalPrice(){
+
+        int totalPrice=0;
+        for (OrderItem orderItem : orderItems) {
+            totalPrice += orderItem.getTotalPrice();
+        }
+        return totalPrice;
+        /*return orderItems.stream()
+                .mapToInt(OrderItem::getTotalPrice)
+                .sum();*/
     }
 }
