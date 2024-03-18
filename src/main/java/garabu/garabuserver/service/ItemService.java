@@ -1,5 +1,6 @@
 package garabu.garabuserver.service;
 
+import garabu.garabuserver.domain.item.Book;
 import garabu.garabuserver.domain.item.Item;
 import garabu.garabuserver.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,14 @@ public class ItemService {
     @Transactional
     public void saveItem(Item item) {
         itemRepository.save(item);
+    }
+
+    @Transactional
+    public void updateItem(Long itemId, Book param){
+       Item findItem = itemRepository.findOne(itemId);
+       findItem.setPrice(param.getPrice());
+       findItem.setName(param.getName());
+
     }
 
     public List<Item> findItems() {
