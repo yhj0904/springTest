@@ -8,6 +8,7 @@ import garabu.garabuserver.domain.item.Item;
 import garabu.garabuserver.repository.ItemRepository;
 import garabu.garabuserver.repository.MemberRepository;
 import garabu.garabuserver.repository.OrderRepository;
+import garabu.garabuserver.repository.OrderSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,7 +60,9 @@ public class OrderService {
     }
 
     //검색
-    //public List<Order>
+    public List<Order> findOrders(OrderSearch orderSearch){
+        return orderRepository.findAllByString(orderSearch);
+    }
 
 
 }
